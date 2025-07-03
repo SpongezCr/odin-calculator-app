@@ -104,7 +104,7 @@ function onButtonClick(char) {
         if (char === "0" && leadingZero) return;
         if (char === "." && hasDecimal) return;
 
-        if (waitingForNumber || resetString) {
+        if (waitingForNumber) {
             displayString = "";
             if (char === "0") {
                 leadingZero = true;
@@ -137,7 +137,6 @@ let firstNumber = null;
 let waitingForNumber = true;
 let leadingZero = false;
 let hasDecimal = false;
-let resetString = false;
 
 const buttons = document.querySelector(".buttons");
 const display = document.querySelector(".display");
