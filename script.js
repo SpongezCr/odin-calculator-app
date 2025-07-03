@@ -34,14 +34,14 @@ function resetBooleanValues() {
 }
 
 function onButtonClick(char) {
-    if (char === "c" || char === "Enter"){
 
+    if (char === "c" || char === "Enter"){
         firstNumber = null;
         displayString = "";
         curOperator = null;
         resetBooleanValues();
-
     }
+
     else if (char === "=") {
 
         if (displayString[displayString.length - 1] === ".") return;
@@ -50,9 +50,11 @@ function onButtonClick(char) {
         firstNumber = operate(firstNumber, curOperator, Number(displayString));
         displayString = formatNumber(firstNumber);
         curOperator = null;
-        resetBooleanValues();
-
+        leadingZero = false;
+        hasDecimal = false;
+        waitingForNumber = true;
     }
+
     else if (OPERATORS.includes(char)) {
 
         if (displayString[displayString.length - 1] === ".") return;
@@ -79,6 +81,7 @@ function onButtonClick(char) {
         }
 
     }
+
     else if (char === "Backspace") {
         let char = displayString[displayString.length - 1];
         if (char === ".") {
@@ -91,13 +94,17 @@ function onButtonClick(char) {
             leadingZero = false;
         }
         displayString = displayString.slice(0,-1);
+        if (displayString.length === 0) {
+            waitingForNumber = true;
+        }
     }
+
     else if (NUMBERS.includes(char)){
 
         if (char === "0" && leadingZero) return;
         if (char === "." && hasDecimal) return;
 
-        if (waitingForNumber) {
+        if (waitingForNumber || resetString) {
             displayString = "";
             if (char === "0") {
                 leadingZero = true;
@@ -106,6 +113,7 @@ function onButtonClick(char) {
                 displayString += "0";
                 hasDecimal = true;
             }
+            resetString = false;
         }
 
         if (leadingZero && char !== ".") {
@@ -129,6 +137,7 @@ let firstNumber = null;
 let waitingForNumber = true;
 let leadingZero = false;
 let hasDecimal = false;
+let resetString = false;
 
 const buttons = document.querySelector(".buttons");
 const display = document.querySelector(".display");
