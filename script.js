@@ -113,7 +113,6 @@ function onButtonClick(char) {
                 displayString += "0";
                 hasDecimal = true;
             }
-            resetString = false;
         }
 
         if (leadingZero && char !== ".") {
